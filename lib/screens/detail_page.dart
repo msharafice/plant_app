@@ -62,7 +62,7 @@ class _DetailPageState extends State<DetailPage> {
                         : Icons.favorite_border,
                     color: Constants.primaryColor,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -73,7 +73,7 @@ class _DetailPageState extends State<DetailPage> {
             child: Container(
               width: size.width * 0.8,
               height: size.height * 0.8,
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Stack(
                 children: [
                   // priduct image
