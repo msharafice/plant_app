@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:plantapp_2/const/constants.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
 
   @override
-  State<ScanPage> createState() => _ProfilePageState();
+  State<ScanPage> createState() => _ScanPageState();
 }
 
-class _ProfilePageState extends State<ScanPage> {
+class _ScanPageState extends State<ScanPage> {
+
+  MobileScannerController cameracontroller = MobileScannerController();
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -69,9 +74,19 @@ class _ProfilePageState extends State<ScanPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/code-scan.png',
-                      height: 100,
+                    GestureDetector(
+                      onTap: () {
+                        MobileScanner(
+                          controller: cameracontroller,
+                          onDetect: (barcodes) {
+                            debugPrint('working...');
+                          },
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/code-scan.png',
+                        height: 100,
+                      ),
                     ),
                     const SizedBox(
                       height: 20.0,

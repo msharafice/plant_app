@@ -124,7 +124,7 @@ class _DetailPageState extends State<DetailPage> {
             left: 0.0,
             right: 0.0,
             child: Container(
-              padding: EdgeInsets.only(top: 80.0, left: 30.0, right: 30.0),
+              padding: const EdgeInsets.only(top: 80.0, left: 30.0, right: 30.0),
               height: size.height * 0.5,
               width: size.width,
               decoration: BoxDecoration(
@@ -143,7 +143,7 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.star,
                             size: 30.0,
                           ),
