@@ -5,24 +5,26 @@ import 'package:plantapp_2/widgets/extensions.dart';
 
 class DetailPage extends StatefulWidget {
   final int plantId;
-  const DetailPage({
-    super.key,
-    required this.plantId,
-  });
+  const DetailPage({super.key, required this.plantId});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+  bool toggleIsSelected(bool isSelected) {
+    return !isSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Plant> plantList = Plant.plantList;
+
     return Scaffold(
       body: Stack(
         children: [
-          // appbar
+          // AppBar
           Positioned(
             top: 50.0,
             left: 20.0,
@@ -34,27 +36,24 @@ class _DetailPageState extends State<DetailPage> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  // x button
+                  // X Button
                   child: Container(
                     height: 40.0,
                     width: 40.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Constants.primaryColor.withOpacity(0.15),
+                      color: Constants.primaryColor.withValues(alpha: 0.15),
                     ),
-                    child: Icon(
-                      Icons.close,
-                      color: Constants.primaryColor,
-                    ),
+                    child: Icon(Icons.close, color: Constants.primaryColor),
                   ),
                 ),
-                //like button
+                // Like Button
                 Container(
                   height: 40.0,
                   width: 40.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
-                    color: Constants.primaryColor.withOpacity(0.15),
+                    color: Constants.primaryColor.withValues(alpha: 0.15),
                   ),
                   child: Icon(
                     plantList[widget.plantId].isFavorated == true
@@ -66,6 +65,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
           ),
+
           Positioned(
             top: 100.0,
             left: 20.0,
@@ -76,13 +76,14 @@ class _DetailPageState extends State<DetailPage> {
               padding: const EdgeInsets.all(20.0),
               child: Stack(
                 children: [
-                  // priduct image
+                  // Product Image
                   Positioned(
                     top: 10.0,
                     left: 0.0,
                     child: SizedBox(
-                        height: 350.0,
-                        child: Image.asset(plantList[widget.plantId].imageURL)),
+                      height: 350.0,
+                      child: Image.asset(plantList[widget.plantId].imageURL),
+                    ),
                   ),
                   // PlantFeature
                   Positioned(
@@ -95,7 +96,7 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           PlantFeature(
-                            title: 'اندازه گیاه',
+                            title: 'اندازه‌گیاه',
                             plantFeature: plantList[widget.plantId].size,
                           ),
                           PlantFeature(
@@ -103,13 +104,14 @@ class _DetailPageState extends State<DetailPage> {
                             plantFeature: plantList[widget.plantId]
                                 .humidity
                                 .toString()
-                                .farsinumber,
+                                .farsiNumber,
                           ),
                           PlantFeature(
                             title: 'دمای‌نگهداری',
                             plantFeature: plantList[widget.plantId]
                                 .temperature
-                                .farsinumber,
+                                .toString()
+                                .farsiNumber,
                           ),
                         ],
                       ),
@@ -124,43 +126,50 @@ class _DetailPageState extends State<DetailPage> {
             left: 0.0,
             right: 0.0,
             child: Container(
-              padding: const EdgeInsets.only(top: 80.0, left: 30.0, right: 30.0),
+              padding: const EdgeInsets.only(
+                top: 80.0,
+                left: 30.0,
+                right: 30.0,
+              ),
               height: size.height * 0.5,
               width: size.width,
               decoration: BoxDecoration(
-                color: Constants.primaryColor.withOpacity(0.5),
+                color: Constants.primaryColor.withValues(alpha: 0.5),
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
                   topRight: Radius.circular(30.0),
+                  topLeft: Radius.circular(30.0),
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      // Star
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.star,
                             size: 30.0,
+                            color: Constants.primaryColor,
                           ),
                           Text(
                             plantList[widget.plantId]
                                 .rating
                                 .toString()
-                                .farsinumber,
+                                .farsiNumber,
                             style: TextStyle(
                               fontFamily: 'Lalezar',
                               color: Constants.primaryColor,
-                              // fontWeight: FontWeight.bold,
                               fontSize: 23.0,
                             ),
                           ),
                         ],
                       ),
+                      // Plant Name
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -174,18 +183,21 @@ class _DetailPageState extends State<DetailPage> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
+                          // Price
                           Row(
                             children: [
                               SizedBox(
-                                  height: 20.0,
-                                  child: Image.asset(
-                                      'assets/images/PriceUnit-green.png')),
+                                height: 19.0,
+                                child: Image.asset(
+                                  'assets/images/PriceUnit-green.png',
+                                ),
+                              ),
                               const SizedBox(width: 10.0),
                               Text(
                                 plantList[widget.plantId]
                                     .price
                                     .toString()
-                                    .farsinumber,
+                                    .farsiNumber,
                                 style: TextStyle(
                                   fontFamily: 'Lalezar',
                                   color: Constants.blackColor,
@@ -196,24 +208,22 @@ class _DetailPageState extends State<DetailPage> {
                             ],
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 15.0,
-                  ),
+                  // Product Description
+                  const SizedBox(height: 15.0),
                   Text(
                     plantList[widget.plantId].decription,
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
-                      fontFamily: 'Lalezar',
-                      color: Constants.blackColor.withOpacity(0.7),
-                      // fontWeight: FontWeight.bold,
+                      fontFamily: 'iranSans',
+                      color: Constants.blackColor.withValues(alpha: 0.7),
                       height: 1.6,
                       fontSize: 18.0,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -229,20 +239,17 @@ class _DetailPageState extends State<DetailPage> {
               height: 50.0,
               width: 50.0,
               decoration: BoxDecoration(
-                color: Constants.primaryColor.withOpacity(0.5),
+                color: Constants.primaryColor.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(50.0),
                 boxShadow: [
                   BoxShadow(
                     offset: const Offset(0.0, 1.1),
                     blurRadius: 5.0,
-                    color: Constants.primaryColor.withOpacity(0.3),
-                  )
+                    color: Constants.primaryColor.withValues(alpha: 0.3),
+                  ),
                 ],
               ),
-              child: const Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.shopping_cart, color: Colors.white),
             ),
             const SizedBox(width: 20.0),
             Expanded(
@@ -254,22 +261,32 @@ class _DetailPageState extends State<DetailPage> {
                     BoxShadow(
                       offset: const Offset(0.0, 1.1),
                       blurRadius: 5.0,
-                      color: Constants.primaryColor.withOpacity(0.3),
-                    )
+                      color: Constants.primaryColor.withValues(alpha: 0.3),
+                    ),
                   ],
                 ),
-                child: const Center(
-                  child: Text(
-                    'افزودن به سبد خرید',
-                    style: TextStyle(
-                      fontFamily: 'Lalezar',
-                      color: Colors.white,
-                      fontSize: 20.0,
+                child: Center(
+                  child: InkResponse(
+                    onTap: () {
+                      setState(() {
+                        bool isSelected = toggleIsSelected(
+                          plantList[widget.plantId].isSelected,
+                        );
+                        plantList[widget.plantId].isSelected = isSelected;
+                      });
+                    },
+                    child: const Text(
+                      'افزودن به سبد خرید',
+                      style: TextStyle(
+                        fontFamily: 'Lalezar',
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -281,10 +298,10 @@ class PlantFeature extends StatelessWidget {
   final String title;
   final String plantFeature;
   const PlantFeature({
-    super.key,
+    Key? key,
     required this.title,
     required this.plantFeature,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

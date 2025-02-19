@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+
 import 'package:plantapp_2/const/constants.dart';
 import 'package:plantapp_2/screens/root.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+// TODO: Upload this File to github without fonts
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreen();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _SplashScreen extends State<SplashScreen> {
+class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
-  int currentindex = 0;
+  int currentIndex = 0;
 
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
@@ -20,17 +23,17 @@ class _SplashScreen extends State<SplashScreen> {
       width: isActive ? 20.0 : 8.0,
       margin: const EdgeInsets.only(right: 5.0),
       decoration: BoxDecoration(
-          color: Constants.primaryColor,
-          borderRadius: BorderRadius.circular(5.0)),
+        color: Constants.primaryColor,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
     );
   }
 
-  List<Widget> _buildindicator() {
+  List<Widget> _buildIndicator() {
     List<Widget> indicators = [];
 
-    // ignore: dead_code
     for (int i = 0; i < 3; i++) {
-      if (currentindex == i) {
+      if (currentIndex == i) {
         indicators.add(_indicator(true));
       } else {
         indicators.add(_indicator(false));
@@ -44,8 +47,8 @@ class _SplashScreen extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0.0,
+        backgroundColor: Colors.white,
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 20.0, right: 20.0),
@@ -55,40 +58,39 @@ class _SplashScreen extends State<SplashScreen> {
                 'رد کردن',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontFamily: 'lalezar',
+                  fontFamily: 'Lalezar',
                   fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
       body: Stack(
         children: [
           PageView(
             onPageChanged: (int page) {
-              setState(
-                () {
-                  currentindex = page;
-                },
-              );
+              setState(() {
+                currentIndex = page;
+              });
             },
             controller: _pageController,
             children: [
               CreatePage(
                 image: 'assets/images/plant-one.png',
                 title: Constants.titleOne,
-                discription: Constants.descriptionOne,
+                description: Constants.descriptionOne,
               ),
               CreatePage(
                 image: 'assets/images/plant-two.png',
                 title: Constants.titleTwo,
-                discription: Constants.descriptionTwo,
+                description: Constants.descriptionTwo,
               ),
               CreatePage(
                 image: 'assets/images/plant-three.png',
                 title: Constants.titleThree,
-                discription: Constants.descriptionThree,
+                description: Constants.descriptionThree,
               ),
             ],
           ),
@@ -96,12 +98,12 @@ class _SplashScreen extends State<SplashScreen> {
             bottom: 80.0,
             left: 30.0,
             child: Row(
-              children: _buildindicator(),
+              children: _buildIndicator(),
             ),
           ),
           Positioned(
-            right: 30.0,
             bottom: 60.0,
+            right: 30.0,
             child: Container(
               padding: const EdgeInsets.all(4.0),
               decoration: BoxDecoration(
@@ -111,20 +113,18 @@ class _SplashScreen extends State<SplashScreen> {
               child: IconButton(
                 onPressed: () {
                   setState(() {
-                    if (currentindex < 2) {
-                      currentindex++;
-                      if (currentindex < 3) {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
-                        );
+                    if (currentIndex < 2) {
+                      currentIndex++;
+                      if (currentIndex < 3) {
+                        _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                       }
                     } else {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RootPage(),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RootPage(),
+                        ),
+                      );
                     }
                   });
                 },
@@ -145,14 +145,14 @@ class _SplashScreen extends State<SplashScreen> {
 class CreatePage extends StatelessWidget {
   final String image;
   final String title;
-  final String discription;
+  final String description;
 
   const CreatePage({
-    super.key,
+    Key? key,
     required this.image,
     required this.title,
-    required this.discription,
-  });
+    required this.description,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -167,17 +167,14 @@ class CreatePage extends StatelessWidget {
         children: [
           SizedBox(
             height: 350.0,
-            child: Image.asset(
-              image,
-            ),
+            child: Image.asset(image),
           ),
           const SizedBox(height: 20.0),
           Text(
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontFamily: 'lalezar',
-              //lalaezar
+              fontFamily: 'YekanBakh',
               fontSize: 25.0,
               color: Constants.primaryColor,
               fontWeight: FontWeight.bold,
@@ -185,10 +182,10 @@ class CreatePage extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
           Text(
-            discription,
+            description,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              // fontFamily: 'iransans',
+              fontFamily: 'iranSans',
               fontSize: 20.0,
               color: Colors.grey,
               fontWeight: FontWeight.w400,
@@ -200,4 +197,3 @@ class CreatePage extends StatelessWidget {
     );
   }
 }
-

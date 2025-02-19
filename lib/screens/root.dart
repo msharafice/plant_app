@@ -1,31 +1,37 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:plantapp_2/const/constants.dart';
+import 'package:plantapp_2/models/plant.dart';
 import 'package:plantapp_2/screens/cart_page.dart';
+import 'package:plantapp_2/screens/profile_page.dart';
+import 'package:plantapp_2/const/constants.dart';
 import 'package:plantapp_2/screens/favorite_page.dart';
 import 'package:plantapp_2/screens/home_page.dart';
-import 'package:plantapp_2/screens/profile_page.dart';
 import 'package:plantapp_2/screens/scan_page.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
 
   @override
-  State<RootPage> createState() => _ProfilePageState();
+  State<RootPage> createState() => _RootPageState();
 }
 
-class _ProfilePageState extends State<RootPage> {
+class _RootPageState extends State<RootPage> {
   int bottomIndex = 0;
 
-  List<Widget> pages = const [
-    HomePage(),
-    FavoritePage(),
-    CartPage(),
-    ProfilePage(),
-  ];
+  List<Plant> favorites = [];
+  List<Plant> myCart = [];
 
-  List<IconData> iconlist = [
+  List<Widget> page() {
+    return [
+      const HomePage(),
+      FavoritePage(favoritedPlants: favorites),
+      CartPage(addedToCartPlants: myCart),
+      const ProfilePage(),
+    ];
+  }
+
+  List<IconData> iconList = [
     Icons.home,
     Icons.favorite,
     Icons.shopping_cart,
@@ -69,7 +75,7 @@ class _ProfilePageState extends State<RootPage> {
       ),
       body: IndexedStack(
         index: bottomIndex,
-        children: pages,
+        children: page(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -91,14 +97,20 @@ class _ProfilePageState extends State<RootPage> {
       bottomNavigationBar: AnimatedBottomNavigationBar(
         splashColor: Constants.primaryColor,
         activeColor: Constants.primaryColor,
-        inactiveColor: Colors.black.withOpacity(0.5),
         activeIndex: bottomIndex,
+        inactiveColor: Colors.black.withValues(alpha: 0.5),
         gapLocation: GapLocation.center,
-        icons: iconlist,
+        icons: iconList,
         notchSmoothness: NotchSmoothness.softEdge,
         onTap: (index) {
           setState(() {
             bottomIndex = index;
+
+            final List<Plant> favoritedPlants = Plant.getFavoritedPlants();
+            final List<Plant> addedToCartPlants = Plant.addedToCartPlants();
+
+            favorites = favoritedPlants.toSet().toList();
+            myCart = addedToCartPlants.toSet().toList();
           });
         },
       ),

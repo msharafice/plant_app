@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:plantapp_2/const/constants.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:plantapp_2/screens/camera_page.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -10,9 +12,7 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
-
-  MobileScannerController cameracontroller = MobileScannerController();
-
+  MobileScannerController cameraController = MobileScannerController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class _ScanPageState extends State<ScanPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // appbar
+          // AppBar
           Positioned(
             top: 50.0,
             left: 20.0,
@@ -32,33 +32,27 @@ class _ScanPageState extends State<ScanPage> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  // x button
+                  // X Button
                   child: Container(
                     height: 40.0,
                     width: 40.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),
-                      color: Constants.primaryColor.withOpacity(0.15),
+                      color: Constants.primaryColor.withValues(alpha: 0.15),
                     ),
-                    child: Icon(
-                      Icons.close,
-                      color: Constants.primaryColor,
-                    ),
+                    child: Icon(Icons.close, color: Constants.primaryColor),
                   ),
                 ),
-                //like button
+                // Share Button
                 Container(
                   height: 40.0,
                   width: 40.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
-                    color: Constants.primaryColor.withOpacity(0.15),
+                    color: Constants.primaryColor.withValues(alpha: 0.15),
                   ),
-                  child: Icon(
-                    Icons.share,
-                    color: Constants.primaryColor,
-                  ),
-                )
+                  child: Icon(Icons.share, color: Constants.primaryColor),
+                ),
               ],
             ),
           ),
@@ -76,28 +70,27 @@ class _ScanPageState extends State<ScanPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        MobileScanner(
-                          controller: cameracontroller,
-                          onDetect: (barcodes) {
-                            debugPrint('working...');
-                          },
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            child: const CameraPage(),
+                            type: PageTransitionType.fade,
+                          ),
                         );
                       },
                       child: Image.asset(
                         'assets/images/code-scan.png',
-                        height: 100,
+                        height: 100.0,
                       ),
                     ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
+                    const SizedBox(height: 20.0),
                     Text(
-                      'برای اسکن گیاه کلیک کنید',
+                      'برای اسکن گیاه، کلیک کنید',
                       style: TextStyle(
-                        color: Constants.primaryColor.withOpacity(0.8),
+                        color: Constants.primaryColor.withValues(alpha: 0.8),
+                        fontFamily: 'Lalezar',
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Lalezar',
                       ),
                     ),
                   ],
