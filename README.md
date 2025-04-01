@@ -1,4 +1,4 @@
-# plantapp_2
+# plant_app
 
 A new Flutter project.
 
